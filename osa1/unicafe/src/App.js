@@ -6,38 +6,39 @@ const Button = (props) => (
   </button>
 )
 
+const Statistics = (props) => {
+  console.log(props)
+  return (
+    <div>
+      <p>{props.text} {props.number}</p>
+
+    </div>
+  )
+}
+
 
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [all, setAll] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positive, setPositive] = useState(0)
+
 
   const handleGoodClick = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
-    setAll(bad + neutral + updatedGood)
-    setAverage((bad*(-1) + updatedGood * 1)/(all+1))
-    setPositive(updatedGood / (all+1) * 100)
+
 
   }
 
   const handleNeutralClick = () => {
     const updatedNeutral = neutral + 1
     setNeutral(updatedNeutral)
-    setAll(bad + updatedNeutral + good)
-    setAverage((bad*(-1) + good * 1)/(all+1))
-    setPositive(good / (all+1) * 100)
+
 
   }
   const handleBadClick = () => {
     const updatedBad = bad + 1
     setBad(updatedBad)
-    setAll(updatedBad + neutral + good)
-    setAverage((updatedBad*(-1) + good * 1)/(all+1))
-    setPositive(good / (all+1) * 100)
 
   }
 
@@ -48,13 +49,14 @@ const App = () => {
       <Button handleClick={handleGoodClick} text='good'/>
       <Button handleClick={handleNeutralClick} text='neutral'/>
       <Button handleClick={handleBadClick} text='bad'/>
-      <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p> average {average} </p>
-      <p>positive {positive} % </p>
+      <h1>Statistics</h1>
+      <Statistics text='good' number={good}/>
+      <Statistics text='neutral' number={neutral} />
+      <Statistics text='bad' number={bad} />
+      <Statistics text='all' number={good+neutral+bad}/>
+      <Statistics text='average' number={(good*1 + bad*(-1))/(good+neutral+bad)}/>
+      <Statistics text='positive' number={(good)/(good+neutral+bad)}/>
+
     </div>
   )
 }
