@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 
-
 const Button = (props) => (
-
   <button onClick={props.handleClick}>
     {props.text}
   </button>
@@ -10,14 +8,10 @@ const Button = (props) => (
 
 const Anecdotes = (props) => {
   return (
-    <p>
-      {props.anecdote}</p>
-  )
-}
+    <div>    
+      <p>{props.anecdote}<br />{props.text} {props.votes}</p>
+    </div>
 
-const Text = (props) => {
-  return(
-    <p>{props.text} {props.votes}</p>
   )
 }
 
@@ -39,8 +33,7 @@ const App = () => {
   useEffect(() => {
   var n = anecdotes.length 
   setPoints(Array(n).fill(0))
-  console.log(points)
-  }, [])
+  }, [anecdotes.length])
 
 
   function getRandomInt(max) {
@@ -52,19 +45,22 @@ const App = () => {
     copy[selected] += 1
     setPoints(copy)     
     console.log(copy)
-    
   }
 
   const handleClick = () => {
     setSelected(getRandomInt(8));
   }
 
+  const mostvotes = points.indexOf(Math.max(...points))
+
   return (
     <div>
-      <Anecdotes anecdote={anecdotes[selected]} />
-      <Text text="has votes" votes={points[selected]}/>
-      <Button handleClick={handleVote} text="vote" votes={points[selected]}/>
-      <Button handleClick={handleClick} text="next" points={points}/>
+      <h2>Anecdote of the day</h2>
+      <Anecdotes anecdote={anecdotes[selected]} text="has votes" votes={points[selected]}/>
+      <Button handleClick={handleVote} text="vote"/>
+      <Button handleClick={handleClick} text="next anecdote" />
+      <h2>Anecdote with most votes</h2>
+      <Anecdotes anecdote={anecdotes[mostvotes]} text="has votes" votes={points[mostvotes]}/>
     </div>
   )
 }
