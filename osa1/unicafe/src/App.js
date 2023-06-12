@@ -9,15 +9,19 @@ const Button = (props) => (
 const StatisticLine = props => {
   if (props.text=='positive'){
     return(
-    <div>
-      <p>{props.text} {props.number} %</p>
-    </div>    
+      <table>
+        <tbody>
+          <tr><td>{props.text} {props.number} %</td></tr> 
+        </tbody>
+      </table>  
     )
   }
   return (
-    <div>
-      <p>{props.text} {props.number}</p>
-    </div>
+    <table>
+    <tbody>
+      <tr><td>{props.text} {props.number}</td></tr> 
+    </tbody>
+  </table>  
   )
 }
 
