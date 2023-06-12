@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const Button = (props) => (
+
   <button onClick={props.handleClick}>
     {props.text}
   </button>
@@ -9,13 +10,18 @@ const Button = (props) => (
 
 const Anecdotes = (props) => {
   return (
-    <p>{props.ane}</p>
+    <p>
+      {props.anecdote}</p>
+  )
+}
+
+const Text = (props) => {
+  return(
+    <p>{props.text} {props.votes}</p>
   )
 }
 
 const App = () => {
-
-
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -28,10 +34,25 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState([])
+
+  useEffect(() => {
+  var n = anecdotes.length 
+  setPoints(Array(n).fill(0))
+  console.log(points)
+  }, [])
+
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
+  }
 
+  const handleVote = () => {
+    const copy = [...points]
+    copy[selected] += 1
+    setPoints(copy)     
+    console.log(copy)
+    
   }
 
   const handleClick = () => {
@@ -40,8 +61,10 @@ const App = () => {
 
   return (
     <div>
-      <Anecdotes ane={anecdotes[selected]}/>
-      <Button handleClick={handleClick} text="next"/>
+      <Anecdotes anecdote={anecdotes[selected]} />
+      <Text text="has votes" votes={points[selected]}/>
+      <Button handleClick={handleVote} text="vote" votes={points[selected]}/>
+      <Button handleClick={handleClick} text="next" points={points}/>
     </div>
   )
 }
