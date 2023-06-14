@@ -2,15 +2,21 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: 1 }
+    { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
     const noteObject = {
-      name: newName,
-      id: persons.length + 1,
+      name: newName
+    }
+  
+    const nameExists = persons.some(person => person.name === noteObject.name)
+  
+    if (nameExists) {
+      alert(noteObject.name + " already exists")
+      return
     }
   
     setPersons(persons.concat(noteObject))
@@ -18,10 +24,8 @@ const App = () => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
-
   return (
     <div>
       <h2>Phonebook</h2>
@@ -38,7 +42,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
         {persons.map(person => 
-          <p key={person.id}>
+          <p key={person.name}>
             {person.name}
           </p>
         )}
