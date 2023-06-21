@@ -27,7 +27,8 @@ const PersonFrom = (props) => {
       <div>number: <input
           value={props.newNumber}
           onChange={props.handleNumberChange}
-        /></div>
+        />
+      </div>
       <div>
         <button type="submit">add</button>
       </div>
@@ -39,8 +40,9 @@ const Persons = (props) => {
   return (
     <div>
       {props.filterPersons.map(person => 
-        <p key={person.name}>
+        <p key={person.id}>
           {person.name} {person.number}
+          <button onClick={() => props.removePerson(person.id, person.name)}>delete</button>
         </p>
       )}
     </div>
@@ -52,6 +54,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
 
   useEffect(() => {
     personService
@@ -65,7 +68,7 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     }
   
     const nameExists = persons.some(person => person.name === personObject.name)
@@ -82,6 +85,19 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     })
+  }
+
+  const removePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert('Error occurred while deleting the person.');
+        })
+    }
   }
 
   const handleNameChange = (event) => {
@@ -109,7 +125,7 @@ const App = () => {
       addPerson={addPerson} handleNameChange={handleNameChange}
       handleNumberChange={handleNumberChange}/>
       <h3>Numbers</h3>
-      <Persons filterPersons={filterPersons}/>
+      <Persons filterPersons={filterPersons} removePerson={removePerson} />
     </div>
   )
 }
