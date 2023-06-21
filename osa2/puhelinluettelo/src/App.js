@@ -7,8 +7,8 @@ const Filter = (props) => {
     <div>
       <p>
         filter shown with <input
-        value={props.value}
-        onChange={props.handleFilterChange}
+          value={props.value}
+          onChange={props.handleFilterChange}
         />
       </p>
     </div>
@@ -19,27 +19,27 @@ const PersonFrom = (props) => {
   return (
     <form onSubmit={props.addPerson}>
       <div>
-        name: <input 
-        value={props.newName}
-        onChange={props.handleNameChange}
+        name: <input
+          value={props.newName}
+          onChange={props.handleNameChange}
         />
       </div>
       <div>number: <input
-          value={props.newNumber}
-          onChange={props.handleNumberChange}
-        />
+        value={props.newNumber}
+        onChange={props.handleNumberChange}
+      />
       </div>
       <div>
         <button type="submit">add</button>
       </div>
-  </form>
+    </form>
   )
 }
 
 const Persons = (props) => {
   return (
     <div>
-      {props.filterPersons.map(person => 
+      {props.filterPersons.map(person =>
         <p key={person.id}>
           {person.name} {person.number}
           <button onClick={() => props.removePerson(person.id, person.name)}>delete</button>
@@ -70,21 +70,32 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-  
-    const nameExists = persons.some(person => person.name === personObject.name)
-  
-    if (nameExists) {
-      alert(personObject.name + " already exists")
+
+    const foundPerson = persons.find(person => person.name === personObject.name)
+    if (foundPerson) {
+      window.confirm(personObject.name +
+        " is already added to phonebook, replace the old number with a new one?")
+      console.log(foundPerson.id)
+      personService
+        .update(foundPerson.id, personObject)
+        .then(() => {
+          let newPersons = [...persons]
+          let newPerson = newPersons.find(person => person.name === personObject.name)
+          newPerson.number = personObject.number
+          setPersons(newPersons)
+          setNewName('')
+          setNewNumber('')
+        })
       return
     }
 
     personService
-    .create(personObject)
-    .then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-      setNewName('')
-      setNewNumber('')
-    })
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const removePerson = (id, name) => {
@@ -107,9 +118,9 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
-    const handleFilterChange = (event) => {
-      console.log(event.target.value)
-      setFilter(event.target.value)
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setFilter(event.target.value)
   }
 
   const filterPersons = persons.filter(person =>
@@ -119,11 +130,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter value={filter} handleFilterChange={handleFilterChange} />
+      <Filter value={filter} handleFilterChange={handleFilterChange} />
       <h3>add a new</h3>
-      <PersonFrom newName={newName} newNumber={newNumber} 
-      addPerson={addPerson} handleNameChange={handleNameChange}
-      handleNumberChange={handleNumberChange}/>
+      <PersonFrom newName={newName} newNumber={newNumber}
+        addPerson={addPerson} handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange} />
       <h3>Numbers</h3>
       <Persons filterPersons={filterPersons} removePerson={removePerson} />
     </div>
