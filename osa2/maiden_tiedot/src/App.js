@@ -1,4 +1,3 @@
-import axios from 'axios';
 import countryService from './services/countries'
 import { useState, useEffect } from 'react'
 
@@ -15,7 +14,27 @@ const Filter = (props) => {
   )
 }
 
+const CountryInfo = ({ country }) => {
+  return (
+    <div key={country.name.common}>
+      <h1>{country.name.common}</h1>
+      capital: {country.capital}
+      <br />
+      area: {country.area}
+      <h3>languages:</h3>
+      <ul>
+        {Object.values(country.languages).map((language, i) => (
+          <li key={i}>{language}</li>
+        ))}
+      </ul>
+      <img src={country.flags.png} alt={country.name.common}/>
+    </div>
+  )
+}
+
 const Countries = (props) => {
+  const [selectedCountry, setSelectedCountry] = useState(null)
+
   if (props.filterCountries.length > 10) {
     return <p>Too many matches, specify another filter</p>
   }
@@ -23,30 +42,24 @@ const Countries = (props) => {
     return (
       <div>
         {props.filterCountries.map(country => (
-          <div key={country.name.common}>
-            <h1>{country.name.common}</h1>
-            capital: {country.capital}
-            <br></br>
-            area: {country.area}
-
-            <h3>languages:</h3>
-            <ul>
-              {Object.values(country.languages).map((language, i) => (
-                <li key={i}>{language}</li>
-              ))}
-            </ul>
-            <img src={country.flags.png} alt={country.name.common} />
-          </div>
+          <CountryInfo key={country.name.common} country={country} />
         ))}
       </div>
     )
-  } 
+  }
   else {
     return (
       <div>
-        {props.filterCountries.map(country =>
-          <p key={country.name.common}>{country.name.common}</p>
-        )}
+        {props.filterCountries.map((country) => (
+          <div key={country.name.common}>
+            <p>
+              {country.name.common}
+              <button onClick={() => setSelectedCountry(country)}>show</button>
+            </p>
+            {selectedCountry === country && (<CountryInfo country={selectedCountry} />
+            )}
+          </div>
+        ))}
       </div>
     )
   }
