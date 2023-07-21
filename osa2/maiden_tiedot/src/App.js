@@ -1,5 +1,7 @@
 import countryService from './services/countries'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const Filter = (props) => {
   return (
@@ -27,9 +29,51 @@ const CountryInfo = ({ country }) => {
           <li key={i}>{language}</li>
         ))}
       </ul>
-      <img src={country.flags.png} alt={country.name.common}/>
+      <img src={country.flags.png} alt={country.name.common} />
+
+      <h2>Weather in {country.capital}</h2>
+      <Weather key={country.name.common} country={country} />
     </div>
   )
+}
+
+const Weather = (props) => {
+  const [weatherData, setWeatherData] = useState(null)
+  const lat = props.country.capitalInfo.latlng[0]
+  const lon = props.country.capitalInfo.latlng[1]
+  const api_key = process.env.REACT_APP_API_KEY
+  const part = 'daily'
+
+  useEffect(() => {
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${api_key}`
+    axios
+      .get(weatherUrl)
+      .then((response) => {
+        console.log(response.data)
+        setWeatherData(response.data)
+      })
+    }, [lat, lon, api_key, part])
+
+    let temp = null
+    let celcius = null
+    if( weatherData ) {
+      let icon = weatherData.current.weather[0].icon
+      temp = weatherData.current.temp
+      celcius = (temp - 273.15)
+      let wind = weatherData.current.wind_speed
+      const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+      return (
+        <div>
+          temperature {Number((celcius).toFixed(2))} Celcius
+          <br />
+          <img src={iconUrl} alt='icons' />
+          <br />
+          wind {wind} m/s
+        </div>
+      )
+    } else {
+      return <div>Loading weather data...</div>;
+    }
 }
 
 const Countries = (props) => {
@@ -77,8 +121,8 @@ const App = () => {
       })
   }, [])
 
+
   const handleFilterChange = (event) => {
-    console.log(event.target.value)
     setFilter(event.target.value)
   }
 
