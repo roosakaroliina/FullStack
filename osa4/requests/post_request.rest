@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-"title": "Good Morning", 
-"author": "Rose Griffin",
-"url": "http://rose.blogger.fi/goodmorning",
+"title": "Lunch time", 
+"author": "Emily C",
+"url": "http://emilytime.blogger.fi/",
 "likes": 22
 }
