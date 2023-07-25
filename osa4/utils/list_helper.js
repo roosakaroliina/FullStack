@@ -3,7 +3,15 @@ const dummy = (blogs) => {
         1
     )
   }
+
+  const totalLikes = (listWithOneBlog) => {
+    const likes = listWithOneBlog.likes
+    return (
+      likes
+    )
+  }
   
   module.exports = {
-    dummy
+    dummy,
+    totalLikes
   }
