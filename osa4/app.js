@@ -9,6 +9,8 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
+//const password = process.argv[2]
+
 //const mongoUrl = `mongodb+srv://fullstack:${password}@cluster0.kwe6pfl.mongodb.net/personApp?retryWrites=true&w=majority`
 
 mongoose.connect(config.MONGODB_URI)
