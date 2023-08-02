@@ -4,7 +4,7 @@ const app = require('../app')
 
 const api = supertest(app)
 
-test('notes are returned as json', async () => {
+test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
     .expect(200)
@@ -12,16 +12,20 @@ test('notes are returned as json', async () => {
 })
 
 test('there are two blogs', async () => {
-    const response = await api.get('/api/blogs')
-  
-    expect(response.body).toHaveLength(2)
-  })
-  
-  test('the first blog is written by Rose Griffin', async () => {
-    const response = await api.get('/api/blogs')
-  
-    expect(response.body[0].author).toBe('Rose Griffin')
-  })
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(2)
+})
+
+test('blogs have an identifier field called id', async () => {
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].id).toBeDefined()
+})
+
+test('the first blog is written by Rose Griffin', async () => {
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].author).toBe('Rose Griffin')
+})
+
 
 afterAll(async () => {
   await mongoose.connection.close()
