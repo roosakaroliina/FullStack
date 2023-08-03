@@ -53,6 +53,23 @@ test('Blogs can be added by HTTP POST request', async () => {
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 })
 
+test('if likes is empty, the value is 0', async () => {
+  const newBlog = {
+    title: 'Autumn without you',
+    author: 'Emma Thompson',
+    url: 'http://emmasdiary.blogger.fi/autumnwithoutyou'
+  }
+
+  await api.post('/api/blogs')
+  .send(newBlog)
+  .expect(201)
+  .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  console.log(blogsAtEnd[blogsAtEnd.length - 1])
+  expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
