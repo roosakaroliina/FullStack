@@ -19,7 +19,7 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('there are two blogs', async () => {
+test('there are six blogs', async () => {
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
@@ -68,6 +68,21 @@ test('if likes is empty, the value is 0', async () => {
   const blogsAtEnd = await helper.blogsInDb()
   console.log(blogsAtEnd[blogsAtEnd.length - 1])
   expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
+})
+
+test('if title or url is missing, respond with 400', async () => {
+  const newBlog = {
+    title: 'Hello there',
+    author: 'Emma Thompson',
+    likes: 53
+  }
+
+  await api.post('/api/blogs')
+  .send(newBlog)
+  .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
 afterAll(async () => {
