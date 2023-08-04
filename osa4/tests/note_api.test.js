@@ -44,9 +44,9 @@ test('Blogs can be added by HTTP POST request', async () => {
   }
 
   await api.post('/api/blogs')
-  .send(newBlog)
-  .expect(201)
-  .expect('Content-Type', /application\/json/)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
 
   const blogsAtEnd = await helper.blogsInDb()
@@ -61,9 +61,9 @@ test('if likes is empty, the value is 0', async () => {
   }
 
   await api.post('/api/blogs')
-  .send(newBlog)
-  .expect(201)
-  .expect('Content-Type', /application\/json/)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
   const blogsAtEnd = await helper.blogsInDb()
   console.log(blogsAtEnd[blogsAtEnd.length - 1])
@@ -78,8 +78,8 @@ test('if title or url is missing, respond with 400', async () => {
   }
 
   await api.post('/api/blogs')
-  .send(newBlog)
-  .expect(400)
+    .send(newBlog)
+    .expect(400)
 
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
@@ -102,6 +102,24 @@ test('delete succeeds with status code 204', async () => {
   const contents = blogsAtEnd.map(r => r.title)
 
   expect(contents).not.toContain(blogToDelete.title)
+})
+
+test('Updates likes of existing blog', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+  console.log(blogToUpdate)
+
+  const newLikes = {
+    likes: 3,
+  }
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(newLikes)
+    .expect(200)
+
+  const blogs = await helper.blogsInDb()
+  expect(blogs[0].likes).toBe(3)
 })
 
 
