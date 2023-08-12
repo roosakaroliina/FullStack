@@ -1,9 +1,9 @@
-PUT http://localhost:3003/api/blogs/5a422b3a1b54a676234d17f9
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-"title": "Lunch time", 
-"author": "Emily C",
-"url": "http://emilytime.blogger.fi/",
-"likes": 22
+"title": "testausjee", 
+"author": "Maximilian Aux-Haut",
+"url": "http://maximilian-aux-haut-provence.blogger.fi/conquerfear/",
+"userId": "64d7448b70ad65a7906a03cf"
 }
