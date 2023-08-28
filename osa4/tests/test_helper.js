@@ -5,9 +5,10 @@ const initialBlogs = [
     {
         _id: "5a422a851b54a676234d17f7",
         title: "React patterns",
-        author: "Michael Chan",
+        author: "Michael Chans",
         url: "https://reactpatterns.com/",
         likes: 7,
+        userId: "64eca4ffa76fe98096fa9e33",
         __v: 0
     },
     {
@@ -16,6 +17,7 @@ const initialBlogs = [
         author: "Edsger W. Dijkstra",
         url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
         likes: 5,
+        userId: "64eca4ffa76fe98096fa9e33",
         __v: 0
     },
     {

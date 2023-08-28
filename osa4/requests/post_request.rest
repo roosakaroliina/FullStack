@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-"title": "testausjee", 
-"author": "Maximilian Aux-Haut",
-"url": "http://maximilian-aux-haut-provence.blogger.fi/conquerfear/",
-"userId": "64d7448b70ad65a7906a03cf"
+        "title": "React patterns",
+        "author": "Michael Chans",
+        "url": "https://reactpatterns.com/",
+        "likes": 7,
+        "userId": "64eca4ffa76fe98096fa9e33"
 }
