@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imt1dXNpdiIsImlkIjoiNjRlY2E0ZmZhNzZmZTk4MDk2ZmE5ZTMzIiwiaWF0IjoxNjkzMjM5ODA4fQ.acuJwftAD6e2fWjpwkFOC2UylyUoAHQNripMBfBiziU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imt1dXNpdiIsImlkIjoiNjRlY2E0ZmZhNzZmZTk4MDk2ZmE5ZTMzIiwiaWF0IjoxNjkzMjQ3MDQwLCJleHAiOjE2OTMyNTA2NDB9.OfChSZC4P_HorPCyyM4fjJQYGdn7oSv6y47_vmpZ_jo
 
 {
-        "title": "patterns",
-        "author": "Michaelson Chans",
-        "url": "https://patterns.com/",
+        "title": "Rainy night",
+        "author": "Micce Madson",
+        "url": "https://rain.com/",
         "likes": 7,
         "userId": "64eca4ffa76fe98096fa9e33"
 }
