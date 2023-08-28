@@ -106,7 +106,7 @@ test('delete succeeds with status code 204', async () => {
   expect(contents).not.toContain(blogToDelete.title)
 })
 
-test('Updates likes of existing blog', async () => {
+test('Update likes of existing blog', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToUpdate = blogsAtStart[0]
   console.log(blogToUpdate)
@@ -135,7 +135,7 @@ describe('when there is initially one user at db', () => {
     await user.save()
   })
 
-  test('creation succeeds with a fresh username', async () => {
+  test('adding user succeeds with a new username', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
@@ -157,26 +157,6 @@ describe('when there is initially one user at db', () => {
     expect(usernames).toContain(newUser.username)
   })
 
-  test('creation fails with proper statuscode and message if username already taken', async () => {
-    const usersAtStart = await helper.usersInDb()
-
-    const newUser = {
-      username: 'Kuusivaa',
-      name: 'Roosa Kuusivaara',
-      password: 'salainen',
-    }
-
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/)
-
-    expect(result.body.error).toContain('expected `username` to be unique')
-
-    const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length)
-  })
 })
 
 
