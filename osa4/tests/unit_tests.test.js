@@ -85,7 +85,7 @@ describe('total likes', () => {
     })
 
   })
-  describe('Blogs', () => {
+  describe('Tests based on bloglist', () => {
     const listsOfBlogs = [
       {
         _id: "5a422a851b54a676234d17f7",
@@ -137,7 +137,7 @@ describe('total likes', () => {
       }  
     ]
 
-    test('most likes of a bigger list of blogs', () => {
+    test('blog with most likes', () => {
       const result = listHelper.favoriteBlog(listsOfBlogs)
       expect(result).toEqual(listsOfBlogs[2].title)
     })
@@ -148,4 +148,10 @@ describe('total likes', () => {
 
     })
 
+    test('Author with most likes', () => {
+      const result = listHelper.mostLikes(listsOfBlogs)
+      console.log(result)
+      expect(result.author).toBe('Edsger W. Dijkstra')
+
+    })
   })

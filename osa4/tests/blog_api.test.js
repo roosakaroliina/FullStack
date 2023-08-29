@@ -168,7 +168,6 @@ describe('Testing PUT request', () => {
 
 describe('Testing user creation', () => {
 
-
   test('adding user succeeds with a new username', async () => {
     const usersAtStart = await helper.usersInDb()
 
