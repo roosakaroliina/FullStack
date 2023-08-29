@@ -19,7 +19,7 @@ describe('total likes', () => {
       }
     ]
     const emptyList = []
-
+    
     const listsOfBlogs = [
       {
         _id: "5a422a851b54a676234d17f7",
