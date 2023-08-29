@@ -85,7 +85,7 @@ describe('total likes', () => {
     })
 
   })
-  describe('Most likes', () => {
+  describe('Blogs', () => {
     const listsOfBlogs = [
       {
         _id: "5a422a851b54a676234d17f7",
@@ -137,10 +137,15 @@ describe('total likes', () => {
       }  
     ]
 
-    test('of a bigger list of blogs', () => {
+    test('most likes of a bigger list of blogs', () => {
       const result = listHelper.favoriteBlog(listsOfBlogs)
-      console.log(result)
       expect(result).toEqual(listsOfBlogs[2].title)
+    })
+    test('Author with most blogs', () => {
+      const result = listHelper.mostBlogs(listsOfBlogs)
+      console.log(result)
+      expect(result.author).toBe('Robert C. Martin')
+
     })
 
   })
