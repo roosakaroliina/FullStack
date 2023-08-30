@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -16,6 +18,15 @@ const App = () => {
     )
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -24,7 +35,7 @@ const App = () => {
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -35,6 +46,12 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
   }
 
   const loginForm = () => (
@@ -62,12 +79,16 @@ const App = () => {
     </form>
   )
 
+
   return (
     <div>
+      <Notification message={errorMessage} />
       {!user && loginForm()}
       {user && <div>
         <h2>blogs</h2>
-        <p>{user.username} logged in</p>
+        <form onSubmit={handleLogout}>
+          <p>{user.username} logged in <button type="submit">logout</button></p>
+        </form>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} user={user.username} />
         )}
