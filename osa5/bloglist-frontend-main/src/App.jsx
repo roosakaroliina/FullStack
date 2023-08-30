@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
@@ -13,9 +14,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -32,6 +30,30 @@ const App = () => {
     }
   }, [])
 
+  const blogFormRef = useRef()
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+  }
+
+  const addBlog = async (blogObject) => {
+    try {
+        const returnedBlog = await blogService.create(blogObject);
+        setBlogs((prevBlogs) => [...prevBlogs, returnedBlog]);
+        setErrorMessage(null); // Clear error message if successful
+        blogFormRef.current.toggleVisibility();
+    } catch (error) {
+        if (error.response && error.response.status === 409) {
+            setErrorMessage('This blog is already added');
+        } else {
+            setErrorMessage('An error occurred while adding the blog');
+        }
+    }
+};
+
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -47,39 +69,6 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       setErrorMessage('wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
-  }
-
-  const handleLogout = async (event) => {
-    event.preventDefault()
-    window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
-  }
-
-  const handleCreation = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title,
-      author,
-      url
-    }
-    try {
-      const blog = await blogService.create(newBlog)
-      const updatedBlogs = await blogService.getAll()
-      setBlogs(updatedBlogs)
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    } catch (expection) {
-      setErrorMessage('Someting is missing')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -111,6 +100,13 @@ const App = () => {
     </form>
   )
 
+  const blogForm = () => (
+    <Togglable buttonLabel="new blog" ref={blogFormRef} >
+      <BlogForm createBlog={addBlog} 
+      setErrorMessage={setErrorMessage} setMessage={setMessage} />
+    </Togglable>
+    )
+
   return (
     <div>
       <Notification errorMessage={errorMessage} message={message} />
@@ -120,10 +116,7 @@ const App = () => {
         <form onSubmit={handleLogout}>
           <p>{user.username} logged in <button type="submit">logout</button></p>
         </form>
-        <BlogForm
-          title={title} author={author} url={url} setTitle={setTitle}
-          setAuthor={setAuthor} setUrl={setUrl} handleCreation={handleCreation}
-        />
+        {blogForm()}
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} user={user.username} />
         )}
