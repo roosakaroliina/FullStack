@@ -34,4 +34,4 @@ const BlogForm = ({title, author, url, setTitle, setAuthor,
     </form>
 )
 
-export default BlogForm;
+export default BlogForm

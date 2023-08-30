@@ -8,6 +8,7 @@ import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -45,7 +46,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -60,16 +61,23 @@ const App = () => {
 
   const handleCreation = async (event) => {
     event.preventDefault()
+    const newBlog = {
+      title,
+      author,
+      url
+    }
     try {
-      const blog = await blogService.create({
-        title, author, url
-      })
+      const blog = await blogService.create(newBlog)
       const updatedBlogs = await blogService.getAll()
       setBlogs(updatedBlogs)
-  
+
       setTitle('')
       setAuthor('')
       setUrl('')
+      setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch (expection) {
       setErrorMessage('Someting is missing')
       setTimeout(() => {
@@ -105,7 +113,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification errorMessage={errorMessage} message={message} />
       {!user && loginForm()}
       {user && <div>
         <h2>blogs</h2>
