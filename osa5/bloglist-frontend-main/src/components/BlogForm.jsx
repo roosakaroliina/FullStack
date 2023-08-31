@@ -1,29 +1,27 @@
 import { useState } from 'react'
 
-const BlogForm = ({ createBlog, setErrorMessage, setMessage }) => {
+const BlogForm = ({ createBlog, setMessage }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
     const addBlog = (event) => {
         event.preventDefault()
-  
-            createBlog({
-                title: title,
-                author: author,
-                url: url,
-            })
+        createBlog({
+            title: title,
+            author: author,
+            url: url,
+        })
 
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-            setMessage(`a new blog ${title} by ${author} added`)
-            setTimeout(() => {
-                setMessage(null)
-            }, 5000)
-        
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+        setMessage(`a new blog ${title} by ${author} added`)
+        setTimeout(() => {
+            setMessage(null)
+        }, 5000)
+    
     }
-
     return (
         <div>
             <form onSubmit={addBlog}>
@@ -61,5 +59,6 @@ const BlogForm = ({ createBlog, setErrorMessage, setMessage }) => {
         </div>
     )
 }
+
 
 export default BlogForm

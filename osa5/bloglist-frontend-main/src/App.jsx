@@ -37,21 +37,19 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
-
-  const addBlog = async (blogObject) => {
-    try {
-        const returnedBlog = await blogService.create(blogObject)
-        setBlogs((prevBlogs) => [...prevBlogs, returnedBlog])
-        setErrorMessage(null); // Clear error message if successful
-        blogFormRef.current.toggleVisibility()
-    } catch (error) {
-        if (error.response && error.response.status === 409) {
-            setErrorMessage('This blog is already added')
-        } else {
-            setErrorMessage('An error occurred while adding the blog')
-        }
-    }
-}
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+    blogService.create(blogObject)
+      .then((returnedBlog) => {
+        setBlogs([...blogs, returnedBlog])
+      })
+      .catch((error) => {
+        setErrorMessage('An error occurred while adding the blog')
+        setTimeout(() => {
+          setErrorMessage(null)
+      }, 5000)
+      })
+  }
 
 
   const handleLogin = async (event) => {
@@ -100,12 +98,6 @@ const App = () => {
     </form>
   )
 
-  const blogForm = () => (
-    <Togglable buttonLabel="new blog" ref={blogFormRef} >
-      <BlogForm createBlog={addBlog} 
-      setErrorMessage={setErrorMessage} setMessage={setMessage} />
-    </Togglable>
-    )
 
 
   return (
@@ -117,9 +109,11 @@ const App = () => {
         <form onSubmit={handleLogout}>
           <p>{user.name} logged in <button type="submit">logout</button></p>
         </form>
-        {blogForm()}
+        <Togglable buttonLabel="new blog" ref={blogFormRef} >
+          <BlogForm createBlog={addBlog} setMessage={setMessage} />
+        </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user.username} />
+          <Blog key={blog.id} blog={blog} />
         )}
       </div>
       }
