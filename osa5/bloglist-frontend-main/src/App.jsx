@@ -40,18 +40,18 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     try {
-        const returnedBlog = await blogService.create(blogObject);
-        setBlogs((prevBlogs) => [...prevBlogs, returnedBlog]);
+        const returnedBlog = await blogService.create(blogObject)
+        setBlogs((prevBlogs) => [...prevBlogs, returnedBlog])
         setErrorMessage(null); // Clear error message if successful
-        blogFormRef.current.toggleVisibility();
+        blogFormRef.current.toggleVisibility()
     } catch (error) {
         if (error.response && error.response.status === 409) {
-            setErrorMessage('This blog is already added');
+            setErrorMessage('This blog is already added')
         } else {
-            setErrorMessage('An error occurred while adding the blog');
+            setErrorMessage('An error occurred while adding the blog')
         }
     }
-};
+}
 
 
   const handleLogin = async (event) => {
@@ -107,6 +107,7 @@ const App = () => {
     </Togglable>
     )
 
+
   return (
     <div>
       <Notification errorMessage={errorMessage} message={message} />
@@ -114,7 +115,7 @@ const App = () => {
       {user && <div>
         <h2>blogs</h2>
         <form onSubmit={handleLogout}>
-          <p>{user.username} logged in <button type="submit">logout</button></p>
+          <p>{user.name} logged in <button type="submit">logout</button></p>
         </form>
         {blogForm()}
         {blogs.map(blog =>
