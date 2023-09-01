@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
   const [infoVisible, setInfoVisible] = useState(false)
 
   const hideWhenVisible = { display: infoVisible ? 'none' : '' }
@@ -24,11 +24,11 @@ const Blog = ({ blog }) => {
           <div style={showWhenVisible}>
             {blog.title} {blog.author} <button onClick={() => setInfoVisible(false)}>hide</button>
             <br />
-            {blog.url}
+            url: {blog.url}
             <br />
-            likes {blog.likes} <button type="submit">like</button>
+            likes: {blog.likes} <button type="submit">like</button>
             <br />
-            {blog.user.name}
+            added by {blog.user.name ? blog.user.name : user.name}
           </div>
         </>
       </div>

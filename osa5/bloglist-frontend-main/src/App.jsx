@@ -40,7 +40,8 @@ const App = () => {
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
     blogService.create(blogObject)
-      .then((returnedBlog) => {
+    .then((returnedBlog) => {
+        console.log(returnedBlog)
         setBlogs([...blogs, returnedBlog])
       })
       .catch((error) => {
@@ -113,7 +114,7 @@ const App = () => {
           <BlogForm createBlog={addBlog} setMessage={setMessage} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} user={user}/>
         )}
       </div>
       }
