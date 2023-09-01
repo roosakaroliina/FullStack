@@ -52,7 +52,6 @@ const App = () => {
       })
   }
 
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -99,8 +98,6 @@ const App = () => {
     </form>
   )
 
-
-
   return (
     <div>
       <Notification errorMessage={errorMessage} message={message} />
@@ -114,7 +111,7 @@ const App = () => {
           <BlogForm createBlog={addBlog} setMessage={setMessage} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user}/>
+          <Blog key={blog.id} blog={blog} user={user} blogs={blogs} setBlogs={setBlogs}/>
         )}
       </div>
       }

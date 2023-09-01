@@ -1,6 +1,7 @@
 import { useState } from "react"
+import blogService from "../services/blogs"
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, blogs, setBlogs }) => {
   const [infoVisible, setInfoVisible] = useState(false)
 
   const hideWhenVisible = { display: infoVisible ? 'none' : '' }
@@ -12,6 +13,17 @@ const Blog = ({ blog, user }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const increaseLike = async (event) => {
+    event.preventDefault()
+    const updatedBlog = {...blog, likes: blog.likes + 1}
+    console.log(updatedBlog)
+    blogService.update(updatedBlog.id, updatedBlog)
+    const updatedBlogs = blogs.map((a) => 
+    a.id === updatedBlog.id ? updatedBlog : a)
+    setBlogs(updatedBlogs)
+    console.log(updatedBlogs)
   }
 
   return (
@@ -26,8 +38,9 @@ const Blog = ({ blog, user }) => {
             <br />
             url: {blog.url}
             <br />
+            <form onSubmit={increaseLike}>
             likes: {blog.likes} <button type="submit">like</button>
-            <br />
+            </form>
             added by {blog.user.name ? blog.user.name : user.name}
           </div>
         </>
