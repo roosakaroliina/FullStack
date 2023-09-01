@@ -32,6 +32,9 @@ const App = () => {
 
   const blogFormRef = useRef()
 
+  // blogit suuruusjärjestykseen tykkäysmäärän mukaan
+  blogs.sort((a, b) => b.likes - a.likes)
+
   const handleLogout = async (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')

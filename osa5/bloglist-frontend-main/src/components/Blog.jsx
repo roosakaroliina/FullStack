@@ -36,7 +36,7 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
           <div style={showWhenVisible}>
             {blog.title} {blog.author} <button onClick={() => setInfoVisible(false)}>hide</button>
             <br />
-            url: {blog.url}
+            {blog.url}
             <br />
             <form onSubmit={increaseLike}>
             likes: {blog.likes} <button type="submit">like</button>
