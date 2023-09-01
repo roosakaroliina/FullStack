@@ -57,7 +57,7 @@ const App = () => {
 
   const removeBlog = async (blogToRemove) => {
     try {
-      if (window.confirm(`Delete ${blogToRemove.title}?`)) {
+      if (window.confirm(`Delete blog ${blogToRemove.title} by ${blogToRemove.author}?`)) {
         blogService.remove(blogToRemove.id)
         setBlogs(blogs.filter((b) => b.id !== blogToRemove.id))
         setMessage(`Blogpost ${blogToRemove.title} is now removed`)
