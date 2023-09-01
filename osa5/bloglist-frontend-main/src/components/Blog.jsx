@@ -26,7 +26,7 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
     console.log(updatedBlogs)
   }
 
-const deleteBlog = () => removeBlog(blog)
+  const deleteBlog = () => removeBlog(blog)
 
   return (
     <div>
@@ -44,9 +44,11 @@ const deleteBlog = () => removeBlog(blog)
               likes: {blog.likes} <button type="submit">like</button>
             </form>
             added by {blog.user.name ? blog.user.name : user.name}
-            <form onSubmit={deleteBlog}>
-              <button type="submit">remove</button>
-            </form>
+            {blog.user.name === user.name && (
+              <form onSubmit={deleteBlog}>
+                <button type="submit">remove</button>
+              </form>
+            )}
           </div>
         </>
       </div>
