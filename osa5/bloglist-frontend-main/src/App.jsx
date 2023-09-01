@@ -55,6 +55,23 @@ const App = () => {
       })
   }
 
+  const removeBlog = async (blogToRemove) => {
+    try {
+      if (window.confirm(`Delete ${blogToRemove.title}?`)) {
+        blogService.remove(blogToRemove.id)
+        setBlogs(blogs.filter((b) => b.id !== blogToRemove.id))
+        setMessage(`Blogpost ${blogToRemove.title} is now removed`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      }
+    } catch (error) {
+      setErrorMessage('Could not delete')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -114,7 +131,8 @@ const App = () => {
           <BlogForm createBlog={addBlog} setMessage={setMessage} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} blogs={blogs} setBlogs={setBlogs}/>
+          <Blog key={blog.id} blog={blog} user={user} 
+          blogs={blogs} setBlogs={setBlogs} removeBlog={removeBlog}/>
         )}
       </div>
       }
