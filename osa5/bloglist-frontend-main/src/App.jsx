@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import Login from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
@@ -43,7 +44,7 @@ const App = () => {
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
     blogService.create(blogObject)
-    .then((returnedBlog) => {
+      .then((returnedBlog) => {
         console.log(returnedBlog)
         setBlogs([...blogs, returnedBlog])
       })
@@ -51,7 +52,7 @@ const App = () => {
         setErrorMessage('An error occurred while adding the blog')
         setTimeout(() => {
           setErrorMessage(null)
-      }, 5000)
+        }, 5000)
       })
   }
 
@@ -93,35 +94,22 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <h2>log in to application</h2>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
+  const LoginForm = () => {
+    return (
+      <Login
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    )
+  }
 
   return (
     <div>
       <Notification errorMessage={errorMessage} message={message} />
-      {!user && loginForm()}
+      {!user && LoginForm()}
       {user && <div>
         <h2>blogs</h2>
         <form onSubmit={handleLogout}>
@@ -131,8 +119,8 @@ const App = () => {
           <BlogForm createBlog={addBlog} setMessage={setMessage} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} 
-          blogs={blogs} setBlogs={setBlogs} removeBlog={removeBlog}/>
+          <Blog key={blog.id} blog={blog} user={user}
+            blogs={blogs} setBlogs={setBlogs} removeBlog={removeBlog} />
         )}
       </div>
       }

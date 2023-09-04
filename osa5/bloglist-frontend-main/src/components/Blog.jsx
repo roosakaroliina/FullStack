@@ -1,5 +1,6 @@
-import { useState } from "react"
-import blogService from "../services/blogs"
+import { useState } from 'react'
+import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
   const [infoVisible, setInfoVisible] = useState(false)
@@ -15,6 +16,7 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
     marginBottom: 5
   }
 
+  // siirrä tämä App.js
   const increaseLike = async (event) => {
     event.preventDefault()
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
@@ -54,6 +56,14 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
       </div>
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired
 }
 
 export default Blog
