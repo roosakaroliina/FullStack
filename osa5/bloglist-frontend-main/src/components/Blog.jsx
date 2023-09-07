@@ -29,15 +29,15 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
   }
 
   const deleteBlog = () => removeBlog(blog)
-  
+
   return (
     <div>
       <div style={blogStyle}>
 
-          <div style={hideWhenVisible} className='blog'>
+          <div style={hideWhenVisible} className='blogTitleAndAuthor'>
             {blog.title} {blog.author} <button onClick={() => setInfoVisible(true)}>view</button>
           </div>
-          <div style={showWhenVisible}>
+          <div style={showWhenVisible} className='otherInfo'>
             {blog.title} {blog.author} <button onClick={() => setInfoVisible(false)}>hide</button>
             <br />
             {blog.url}
@@ -58,12 +58,12 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
   )
 }
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  removeBlog: PropTypes.func.isRequired
-}
+// Blog.propTypes = {
+//   blog: PropTypes.object.isRequired,
+//   user: PropTypes.object.isRequired,
+//   blogs: PropTypes.array.isRequired,
+//   setBlogs: PropTypes.func.isRequired,
+//   removeBlog: PropTypes.func.isRequired
+// }
 
 export default Blog
