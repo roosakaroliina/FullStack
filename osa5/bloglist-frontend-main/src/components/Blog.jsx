@@ -29,12 +29,12 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
   }
 
   const deleteBlog = () => removeBlog(blog)
-
+  
   return (
     <div>
       <div style={blogStyle}>
-        <>
-          <div style={hideWhenVisible}>
+
+          <div style={hideWhenVisible} className='blog'>
             {blog.title} {blog.author} <button onClick={() => setInfoVisible(true)}>view</button>
           </div>
           <div style={showWhenVisible}>
@@ -52,7 +52,7 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
               </form>
             )}
           </div>
-        </>
+
       </div>
     </div>
   )
