@@ -19,25 +19,25 @@ describe('test for Blog', () => {
     let mocksetBlogs = jest.fn()
     let mockRemoveBlog = jest.fn()
     let mockBlogs = jest.fn()
-test('renders title and author', () => {
+    test('renders title and author', () => {
 
 
-    const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog}/>)
+        const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog} />)
 
-    const div = container.querySelector('.blogTitleAndAuthor')
-    expect(div).toHaveTextContent(
-        'Otsikko Katri'
-    )
-})
+        const div = container.querySelector('.blogTitleAndAuthor')
+        expect(div).toHaveTextContent(
+            'Otsikko Katri'
+        )
+    })
 
-test('clicking the button to show more', async () => {
+    test('clicking the button to show more', async () => {
 
-    const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog}/>)
+        const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog} />)
 
-    const button = screen.getByText('Otsikko Katri')
-    await userEvent.setup().click(button)
-    
-    const div = container.querySelector('.otherInfo')
-    expect(div).toHaveTextContent('Otsikko Katri hidelol.filikes: 5 likeadded by Roseremove')
-})
+        const button = screen.getByText('Otsikko Katri')
+        await userEvent.setup().click(button)
+
+        const div = container.querySelector('.otherInfo')
+        expect(div).toHaveTextContent('Otsikko Katri hidelol.filikes: 5 likeadded by Roseremove')
+    })
 })
