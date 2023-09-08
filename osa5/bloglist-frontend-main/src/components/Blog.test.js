@@ -16,13 +16,10 @@ describe('test for Blog', () => {
         url: 'lol.fi',
         user: user
     }
-    let mocksetBlogs = jest.fn()
-    let mockRemoveBlog = jest.fn()
-    let mockBlogs = jest.fn()
+
+    const mockHandler = jest.fn()
     test('renders title and author', () => {
-
-
-        const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog} />)
+        const { container } = render(<Blog blog={blog} user={user}/>)
 
         const div = container.querySelector('.blogTitleAndAuthor')
         expect(div).toHaveTextContent(
@@ -31,13 +28,23 @@ describe('test for Blog', () => {
     })
 
     test('clicking the button to show more', async () => {
+        const { container } = render(<Blog blog={blog} user={user} onSubmit={mockHandler} />)
 
-        const { container } = render(<Blog blog={blog} user={user} blogs={mockBlogs} setBlogs={mocksetBlogs} removeBlog={mockRemoveBlog} />)
-
-        const button = screen.getByText('Otsikko Katri')
+        const button = screen.getByText('view')
         await userEvent.setup().click(button)
 
         const div = container.querySelector('.otherInfo')
         expect(div).toHaveTextContent('Otsikko Katri hidelol.filikes: 5 likeadded by Roseremove')
+    })
+
+    test('if like button is clicked twice, it calls eventHandler twice', async () => {
+        const { container } = render(<Blog blog={blog} user={user} increaseLike={mockHandler} />)
+
+        const likeButton = screen.getByText('like')
+        await userEvent.setup().click(likeButton)
+        await userEvent.setup().click(likeButton)
+
+        expect(mockHandler.mock.calls).toHaveLength(2)
+
     })
 })

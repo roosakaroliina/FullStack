@@ -56,6 +56,17 @@ const App = () => {
       })
   }
 
+  const increaseLike = async (blog) => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1 }
+    console.log(updatedBlog)
+    blogService.update(updatedBlog.id, updatedBlog)
+    const updatedBlogs = blogs.map((a) =>
+      a.id === updatedBlog.id ? updatedBlog : a)
+    setBlogs(updatedBlogs)
+    console.log(updatedBlogs)
+  }
+
+
   const removeBlog = async (blogToRemove) => {
     try {
       if (window.confirm(`Delete blog ${blogToRemove.title} by ${blogToRemove.author}?`)) {
@@ -120,7 +131,7 @@ const App = () => {
         </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} user={user}
-            blogs={blogs} setBlogs={setBlogs} removeBlog={removeBlog} />
+            increaseLike={increaseLike} removeBlog={removeBlog} />
         )}
       </div>
       }

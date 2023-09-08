@@ -2,7 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
+const Blog = ({ blog, user, increaseLike, removeBlog }) => {
   const [infoVisible, setInfoVisible] = useState(false)
 
   const hideWhenVisible = { display: infoVisible ? 'none' : '' }
@@ -16,42 +16,28 @@ const Blog = ({ blog, user, blogs, setBlogs, removeBlog }) => {
     marginBottom: 5
   }
 
-  // siirrä tämä App.js
-  const increaseLike = async (event) => {
-    event.preventDefault()
-    const updatedBlog = { ...blog, likes: blog.likes + 1 }
-    console.log(updatedBlog)
-    blogService.update(updatedBlog.id, updatedBlog)
-    const updatedBlogs = blogs.map((a) =>
-      a.id === updatedBlog.id ? updatedBlog : a)
-    setBlogs(updatedBlogs)
-    console.log(updatedBlogs)
-  }
-
-  const deleteBlog = () => removeBlog(blog)
 
   return (
     <div>
       <div style={blogStyle}>
 
-          <div style={hideWhenVisible} className='blogTitleAndAuthor'>
-            {blog.title} {blog.author} <button onClick={() => setInfoVisible(true)}>view</button>
-          </div>
-          <div style={showWhenVisible} className='otherInfo'>
-            {blog.title} {blog.author} <button onClick={() => setInfoVisible(false)}>hide</button>
-            <br />
-            {blog.url}
-            <br />
-            <form onSubmit={increaseLike}>
-              likes: {blog.likes} <button type="submit">like</button>
+        <div style={hideWhenVisible} className='blogTitleAndAuthor'>
+          {blog.title} {blog.author} <button onClick={() => setInfoVisible(true)}>view</button>
+        </div>
+        <div style={showWhenVisible} className='otherInfo'>
+          {blog.title} {blog.author} <button onClick={() => setInfoVisible(false)}>hide</button>
+          <br />
+          {blog.url}
+          <br />
+          likes: {blog.likes} <button className='like' onClick={() => increaseLike(blog)}>like</button>
+          <br />
+          added by {blog.user.name ? blog.user.name : user.name}
+          {blog.user.name === user.name && (
+            <form onClick={() => removeBlog(blog)}>
+              <button type="submit">remove</button>
             </form>
-            added by {blog.user.name ? blog.user.name : user.name}
-            {blog.user.name === user.name && (
-              <form onSubmit={deleteBlog}>
-                <button type="submit">remove</button>
-              </form>
-            )}
-          </div>
+          )}
+        </div>
 
       </div>
     </div>
