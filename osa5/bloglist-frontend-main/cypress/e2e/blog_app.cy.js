@@ -31,5 +31,31 @@ describe('Blog app', function () {
       cy.contains('wrong username or password')
     })
   })
+  describe('When logged in', function() {
+    beforeEach(function() {
+      const user = {
+        username: 'root',
+        password: 'sekret'
+      }
+      cy.get('#username').type(user.username)
+      cy.get('#password').type(user.password)
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function() {
+      const newBlog = {
+        title: 'Book Club',
+        author: 'J. C. Aniston',
+        url: 'www.blogger.com/bookclub'
+      }
+      cy.get('#newblog').click()
+      cy.get('#title').type(newBlog.title)
+      cy.get('#author').type(newBlog.author)
+      cy.get('#url').type(newBlog.url)
+      cy.get('#create-button').click()
+
+      cy.contains(newBlog.title + ' ' + newBlog.author)
+    })
+  })
 
 })
