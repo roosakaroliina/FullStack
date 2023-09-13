@@ -29,7 +29,7 @@ const Blog = ({ blog, user, increaseLike, removeBlog }) => {
           <br />
           {blog.url}
           <br />
-          likes: {blog.likes} <button className='like' onClick={() => increaseLike(blog)}>like</button>
+          likes: {blog.likes} <button id='likebutton' className='like' onClick={() => increaseLike(blog)}>like</button>
           <br />
           added by {blog.user.name ? blog.user.name : user.name}
           {blog.user.name === user.name && (
